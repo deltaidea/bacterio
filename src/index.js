@@ -1,3 +1,3 @@
-let synaptic = require('synaptic')
+const World = require('./World')
 
-console.log(synaptic)
+console.log(new World(10, 10))
