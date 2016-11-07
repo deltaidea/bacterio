@@ -1,0 +1,27 @@
+{
+  "name": "evolo",
+  "version": "0.0.0",
+  "description": "Machine Learning and Evolution experiments",
+  "private": true,
+  "scripts": {
+    "start": "webpack src/index.js dist/scripts.js --watch",
+    "build": "webpack src/index.js dist/scripts.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deltaidea/evolo.git"
+  },
+  "author": "Nikita Litvin <n@deltaidea.com> (https://github.com/deltaidea)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deltaidea/evolo/issues"
+  },
+  "homepage": "https://github.com/deltaidea/evolo#readme",
+  "dependencies": {
+    "synaptic": "^1.0.8"
+  },
+  "devDependencies": {
+    "webpack": "^1.13.3"
+  }
+}
