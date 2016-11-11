@@ -5,3 +5,10 @@ world.initializeRenderer()
 world.initializeTiles()
 world.generateAnimals(10)
 world.render()
+
+function tick () {
+  world.tick()
+  window.requestAnimationFrame(tick)
+}
+
+tick()

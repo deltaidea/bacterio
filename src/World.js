@@ -44,10 +44,15 @@ class World {
 
   render () {
     // Render tiles and animals onto the stage.
-    this.tiles.forEach(row => row.forEach(tile => tile.render(this.stage)))
-    this.animals.forEach(a => a.render(this.stage))
+    this.tiles.forEach(row => row.forEach(tile => tile.render()))
+    this.animals.forEach(a => a.render())
     // Render the stage onto the canvas.
     this.renderer.render(this.stage)
+  }
+
+  tick () {
+    this.animals.forEach(a => a.move())
+    this.render()
   }
 }
 

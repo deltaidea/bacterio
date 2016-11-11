@@ -12,6 +12,7 @@ class Tile {
   }
 
   render () {
+    this.rectangle.clear()
     this.rectangle.beginFill(foodToRgb(this.food))
     this.rectangle.drawRect(this.x * TILE_SIZE, this.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
     this.rectangle.endFill()
