@@ -1,5 +1,7 @@
 const Tile = require('./Tile')
+const Animal = require('./Animal')
 const Pixi = require('pixi.js')
+const getRandomInt = require('./getRandomInt')
 
 class World {
   constructor (width, height) {
@@ -29,12 +31,22 @@ class World {
     }
   }
 
-  render () {
-    for (let x = 0; x < this.width; x++) {
-      for (let y = 0; y < this.height; y++) {
-        this.tiles[x][y].render(this.stage)
-      }
+  generateAnimals (number) {
+    this.animals = []
+    for (let i = 0; i < number; i++) {
+      let x = getRandomInt(0, this.width - 1)
+      let y = getRandomInt(0, this.height - 1)
+      let animal = new Animal(x, y)
+      this.animals.push(animal)
+      this.stage.addChild(animal.rendered)
     }
+  }
+
+  render () {
+    // Render tiles and animals onto the stage.
+    this.tiles.forEach(row => row.forEach(tile => tile.render(this.stage)))
+    this.animals.forEach(a => a.render(this.stage))
+    // Render the stage onto the canvas.
     this.renderer.render(this.stage)
   }
 }
