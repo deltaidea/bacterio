@@ -5,23 +5,36 @@ class World {
   constructor (width, height) {
     this.width = width
     this.height = height
-    this.tiles = []
-
-    for (let i = 0; i < this.tiles.width; i++) {
-      this.tiles[i] = []
-      for (let j = 0; j < this.tiles.height; j++) {
-        this.tiles[i][j] = new Tile()
-      }
-    }
   }
 
-  initializeRender () {
+  initializeRenderer () {
     this.renderer = Pixi.autoDetectRenderer(window.innerWidth, window.innerHeight)
     this.renderer.view.style.position = 'absolute'
     this.renderer.view.style.display = 'block'
     this.renderer.autoResize = true
     document.body.appendChild(this.renderer.view)
     this.stage = new Pixi.Container()
+    this.renderer.backgroundColor = 0x555555
+    this.renderer.render(this.stage)
+  }
+
+  initializeTiles () {
+    this.tiles = []
+    for (let x = 0; x < this.width; x++) {
+      this.tiles[x] = []
+      for (let y = 0; y < this.height; y++) {
+        this.tiles[x][y] = new Tile(x, y)
+        this.stage.addChild(this.tiles[x][y].rectangle)
+      }
+    }
+  }
+
+  render () {
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
+        this.tiles[x][y].render(this.stage)
+      }
+    }
     this.renderer.render(this.stage)
   }
 }
