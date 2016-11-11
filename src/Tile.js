@@ -23,8 +23,8 @@ function getRandomInt (min, max) {
 }
 
 function foodToRgb (food) {
-  // food is 8-bit number. Copy it 3 times by moving to the left and inserting another copy.
-  return (((food << 8) | food) << 8) | food
+  // 2-digit hex number (0-255 dec) three times: 56 -> 565656.
+  return (food * 0x10000) + (food * 0x100) + food
 }
 
 module.exports = Tile
