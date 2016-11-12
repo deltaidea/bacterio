@@ -6,10 +6,18 @@ class Animal {
     this.x = x
     this.y = y
     this.health = game.math.between(200, 255)
-    this.sprite = game.add.sprite(game.TILE_SIZE * x, game.TILE_SIZE * y, getBlankBitmap(game.TILE_SIZE, game))
+
+    let bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
+    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 4, '#ff0000')
+    bitmap.circle(game.TILE_SIZE / 4, game.TILE_SIZE / 2, game.TILE_SIZE / 8, '#0000ff')
+    this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), bitmap)
+    this.sprite.anchor.setTo(0.5, 0.5)
+
+    this.sprite.angle = game.math.between(-180, 180)
+
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
 
-    this.brain = new Brain(2, 10, 10, 2)
+    this.brain = new Brain(2, 10, 10, 3)
   }
 
   tick (tile) {
@@ -29,6 +37,7 @@ class Animal {
 
     let proposedSpeed = this.brain.ask([tile.food, this.health])
     this.sprite.body.velocity.set(proposedSpeed[0] * 1000 - 500, proposedSpeed[1] * 1000 - 500)
+    this.sprite.angle = proposedSpeed[2] * 360 - 180
   }
 
   render () {
@@ -47,18 +56,9 @@ class Animal {
   }
 }
 
-let bitmap = null
-function getBlankBitmap () {
-  if (!bitmap) {
-    bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
-    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 2, '#ff0000')
-  }
-  return bitmap
-}
-
 function healthToRgb (health) {
   // More health - less brightness.
-  let brightness = 255 - health
+  let brightness = (255 - Math.round(health / 2))
   // 2-digit hex number (0-255 dec) three times: 56 -> 565656.
   return (brightness * 0x10000) + (brightness * 0x100) + brightness
 }
