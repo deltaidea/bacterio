@@ -1,14 +1,13 @@
-const World = require('./World')
-const world = new World(100, 100)
+const Phaser = require('./Phaser')
 
-world.initializeRenderer()
-world.initializeTiles()
-world.generateAnimals(10)
-world.render()
+const game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', {create, update})
 
-function tick () {
-  world.tick()
-  window.requestAnimationFrame(tick)
+function create () {
+  game.scale.scaleMode = Phaser.ScaleManager.RESIZE
+  game.physics.startSystem(Phaser.Physics.P2)
+  game.stage.backgroundColor = '#555'
+
+  window.map = game.add.tilemap()
 }
 
-tick()
+function update () {}

@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/deltaidea/evolo#readme",
   "dependencies": {
-    "pixi.js": "^4.1.1",
+    "phaser": "^2.6.2",
     "synaptic": "^1.0.8"
   },
   "devDependencies": {
