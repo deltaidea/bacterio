@@ -61,7 +61,7 @@ class Animal {
 
 function healthToRgb (health) {
   // More health - less brightness.
-  let brightness = (255 - Math.round(health / 2))
+  let brightness = 128 + Math.round(health / 2)
   // 2-digit hex number (0-255 dec) three times: 56 -> 565656.
   return (brightness * 0x10000) + (brightness * 0x100) + brightness
 }
