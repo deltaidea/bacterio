@@ -11,7 +11,7 @@ class Animal {
   }
 
   tick (tile) {
-    this.health -= 2
+    this.health -= 3
 
     let amountEating = 0
 
