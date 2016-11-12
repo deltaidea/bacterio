@@ -14,6 +14,10 @@ class Animal {
   render () {
     this.sprite.tint = healthToRgb(this.health)
   }
+
+  destroy () {
+    this.sprite.destroy()
+  }
 }
 
 let bitmap = null

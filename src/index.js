@@ -8,7 +8,7 @@ const MAP_SIZE = 50
 const TILE_SIZE = 8
 const ANIMAL_NUMBER = 10
 let tiles = []
-let animals = []
+let animals = new Set()
 
 function create () {
   game.scale.scaleMode = Phaser.ScaleManager.RESIZE
@@ -24,10 +24,10 @@ function create () {
   for (let i = 0; i < ANIMAL_NUMBER; i++) {
     const x = game.math.between(0, MAP_SIZE - 1)
     const y = game.math.between(0, MAP_SIZE - 1)
-    animals.push(new Animal(x, y, TILE_SIZE, game))
+    animals.add(new Animal(x, y, TILE_SIZE, game))
   }
 
-  game.time.events.loop(1000, tick)
+  game.time.events.loop(33, tick)
 }
 
 function update () {
@@ -37,5 +37,11 @@ function update () {
 
 function tick () {
   tiles.forEach(row => row.forEach(tile => tile.tick()))
-  animals.forEach(a => a.tick())
+  animals.forEach(animal => {
+    animal.tick()
+    if (animal.health <= 0) {
+      animal.destroy()
+      animals.delete(animal)
+    }
+  })
 }
