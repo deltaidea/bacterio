@@ -9,7 +9,7 @@ class Tile {
   }
 
   tick () {
-    if (game.math.between(0, 99) === 99) this.food += 10
+    if (game.math.between(0, 999) === 999) this.food += 10
     if (this.food > 255) this.food = 255
   }
 

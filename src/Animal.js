@@ -2,22 +2,20 @@ const Phaser = require('./Phaser')
 const Brain = require('./Brain')
 
 class Animal {
-  constructor (x, y) {
-    this.x = x
-    this.y = y
-    this.health = game.math.between(200, 255)
+  constructor (x, y, parent) {
+    this.health = game.math.between(100, 150)
 
     let bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
     bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 4, '#ff0000')
     bitmap.circle(game.TILE_SIZE / 4, game.TILE_SIZE / 2, game.TILE_SIZE / 8, '#0000ff')
     this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), bitmap)
+    game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
     this.sprite.anchor.setTo(0.5, 0.5)
 
     this.sprite.angle = game.math.between(-180, 180)
+    game.physics.arcade.velocityFromAngle(this.sprite.angle, game.math.between(10, 200), this.sprite.body.velocity)
 
-    game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
-
-    this.brain = new Brain(2, 10, 10, 3)
+    this.brain = parent ? new Brain(parent.brain) : new Brain(2, 10, 10, 2)
   }
 
   tick (tile) {
@@ -35,9 +33,14 @@ class Animal {
 
     if (this.health < 0) this.health = 0
 
-    let proposedSpeed = this.brain.ask([tile.food, this.health])
-    this.sprite.body.velocity.set(proposedSpeed[0] * 1000 - 500, proposedSpeed[1] * 1000 - 500)
-    this.sprite.angle = proposedSpeed[2] * 360 - 180
+    if (this.health > 250) {
+      this.health -= 100
+      game.animals.add(new Animal(this.getPosition().x, this.getPosition().y, this))
+    }
+
+    let [v, a] = this.brain.ask([tile.food, this.health])
+    this.sprite.angle += (a - 0.5) * 100
+    game.physics.arcade.velocityFromAngle(this.sprite.angle, -v * 200, this.sprite.body.velocity)
   }
 
   render () {

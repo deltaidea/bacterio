@@ -23,6 +23,7 @@ function create () {
   game.scale.scaleMode = Phaser.ScaleManager.RESIZE
   game.world.setBounds(-size, -size, size * 3, size * 3)
   game.stage.backgroundColor = '#555'
+  game.animals = animals
   borders = createBorders()
 
   // Add an invisible player as a pivot for zoom.
@@ -46,7 +47,7 @@ function create () {
 function spawnAnimal () {
   const x = game.math.between(0, game.MAP_SIZE - 1)
   const y = game.math.between(0, game.MAP_SIZE - 1)
-  animals.add(new Animal(x, y, game.TILE_SIZE, game))
+  animals.add(new Animal(x, y))
 }
 
 function update () {

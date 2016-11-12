@@ -2,7 +2,8 @@ const synaptic = require('synaptic')
 
 class Brain {
   constructor (...layers) {
-    this.net = mutate(new synaptic.Architect.Perceptron(...layers), 0.8)
+    if (layers[0] instanceof Brain) this.net = mutate(layers[0].net, 0.2)
+    else this.net = mutate(new synaptic.Architect.Perceptron(...layers), 0.8)
   }
 
   ask (inputs) {
