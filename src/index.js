@@ -1,4 +1,5 @@
 const Phaser = require('./Phaser')
+const createRect = require('./createRect')
 const Tile = require('./Tile')
 const Animal = require('./Animal')
 
@@ -10,10 +11,13 @@ game.ANIMAL_NUMBER = 10
 
 const tiles = []
 const animals = new Set()
+let borders
 
 function create () {
+  game.physics.startSystem(Phaser.Physics.ARCADE)
   game.scale.scaleMode = Phaser.ScaleManager.RESIZE
   game.stage.backgroundColor = '#555'
+  borders = createBorders()
 
   for (let x = 0; x < game.MAP_SIZE; x++) {
     tiles[x] = []
@@ -33,7 +37,10 @@ function create () {
 
 function update () {
   tiles.forEach(row => row.forEach(tile => tile.render()))
-  animals.forEach(a => a.render())
+  animals.forEach(animal => {
+    animal.render()
+    game.physics.arcade.collide(animal.sprite, borders)
+  })
 }
 
 function tick () {
@@ -49,4 +56,21 @@ function tick () {
 
 function tileAt (position) {
   return tiles[position.x][position.y]
+}
+
+function createBorders () {
+  const size = game.MAP_SIZE * game.TILE_SIZE
+  const borders = game.add.physicsGroup()
+
+  const rightBorder = createRect(size, 0, 10, size, 'rgba(0,0,0,0)')
+  game.physics.enable(rightBorder, Phaser.Physics.ARCADE)
+  rightBorder.body.immovable = true
+  borders.add(rightBorder)
+
+  const bottomBorder = createRect(0, size, size, 10, 'rgba(0,0,0,0)')
+  game.physics.enable(bottomBorder, Phaser.Physics.ARCADE)
+  bottomBorder.body.immovable = true
+  borders.add(bottomBorder)
+
+  return borders
 }

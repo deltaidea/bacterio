@@ -1,9 +1,11 @@
+const createRect = require('./createRect')
+
 class Tile {
   constructor (x, y) {
     this.x = x
     this.y = y
     this.food = game.math.between(0, 50)
-    this.sprite = game.add.sprite(game.TILE_SIZE * x, game.TILE_SIZE * y, getBlankBitmap(game.TILE_SIZE, game))
+    this.sprite = createRect(game.TILE_SIZE * x, game.TILE_SIZE * y, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
   }
 
   tick () {
@@ -14,15 +16,6 @@ class Tile {
   render () {
     this.sprite.tint = foodToRgb(this.food)
   }
-}
-
-let bitmap = null
-function getBlankBitmap () {
-  if (!bitmap) {
-    bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
-    bitmap.rect(0, 0, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
-  }
-  return bitmap
 }
 
 function foodToRgb (food) {

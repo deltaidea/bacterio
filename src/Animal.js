@@ -1,9 +1,13 @@
+const Phaser = require('./Phaser')
+
 class Animal {
   constructor (x, y) {
     this.x = x
     this.y = y
     this.health = game.math.between(200, 255)
     this.sprite = game.add.sprite(game.TILE_SIZE * x, game.TILE_SIZE * y, getBlankBitmap(game.TILE_SIZE, game))
+    game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
+    this.sprite.body.velocity.set(80, 80)
   }
 
   tick (tile) {
