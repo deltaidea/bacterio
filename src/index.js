@@ -37,12 +37,16 @@ function create () {
   }
 
   for (let i = 0; i < game.ANIMAL_NUMBER; i++) {
-    const x = game.math.between(0, game.MAP_SIZE - 1)
-    const y = game.math.between(0, game.MAP_SIZE - 1)
-    animals.add(new Animal(x, y, game.TILE_SIZE, game))
+    spawnAnimal()
   }
 
   game.time.events.loop(16, tick)
+}
+
+function spawnAnimal () {
+  const x = game.math.between(0, game.MAP_SIZE - 1)
+  const y = game.math.between(0, game.MAP_SIZE - 1)
+  animals.add(new Animal(x, y, game.TILE_SIZE, game))
 }
 
 function update () {
@@ -81,6 +85,7 @@ function tick () {
     if (animal.health <= 0) {
       animal.destroy()
       animals.delete(animal)
+      spawnAnimal()
     }
   })
 }
