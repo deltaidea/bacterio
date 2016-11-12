@@ -86,7 +86,7 @@ function tick () {
     if (animal.health <= 0) {
       animal.destroy()
       animals.delete(animal)
-      spawnAnimal()
+      if (animals.size < game.ANIMAL_NUMBER) spawnAnimal()
     }
   })
 }
