@@ -1,9 +1,9 @@
 class Tile {
-  constructor (x, y, tileSize, game) {
+  constructor (x, y) {
     this.x = x
     this.y = y
     this.food = game.math.between(0, 50)
-    this.sprite = game.add.sprite(tileSize * x, tileSize * y, getBlankBitmap(tileSize, game))
+    this.sprite = game.add.sprite(game.TILE_SIZE * x, game.TILE_SIZE * y, getBlankBitmap(game.TILE_SIZE, game))
   }
 
   tick () {
@@ -17,10 +17,10 @@ class Tile {
 }
 
 let bitmap = null
-function getBlankBitmap (tileSize, game) {
+function getBlankBitmap () {
   if (!bitmap) {
-    bitmap = game.make.bitmapData(tileSize, tileSize)
-    bitmap.rect(0, 0, tileSize, tileSize, '#ffffff')
+    bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
+    bitmap.rect(0, 0, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
   }
   return bitmap
 }

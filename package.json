@@ -22,6 +22,11 @@
     "phaser": "^2.6.2",
     "synaptic": "^1.0.8"
   },
+  "standard": {
+    "globals": [
+      "game"
+    ]
+  },
   "devDependencies": {
     "webpack": "^1.13.3"
   }

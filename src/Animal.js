@@ -1,13 +1,24 @@
 class Animal {
-  constructor (x, y, tileSize, game) {
+  constructor (x, y) {
     this.x = x
     this.y = y
     this.health = game.math.between(200, 255)
-    this.sprite = game.add.sprite(tileSize * x, tileSize * y, getBlankBitmap(tileSize, game))
+    this.sprite = game.add.sprite(game.TILE_SIZE * x, game.TILE_SIZE * y, getBlankBitmap(game.TILE_SIZE, game))
   }
 
-  tick () {
-    this.health -= 1
+  tick (tile) {
+    this.health -= 2
+
+    let amountEating = 0
+
+    if (tile.food >= 5) amountEating = 5
+    else amountEating = tile.food
+
+    if ((255 - this.health) < amountEating) amountEating = 255 - this.health
+
+    this.health += amountEating
+    tile.food -= amountEating
+
     if (this.health < 0) this.health = 0
   }
 
@@ -18,13 +29,20 @@ class Animal {
   destroy () {
     this.sprite.destroy()
   }
+
+  getPosition () {
+    return {
+      x: Math.floor(this.sprite.centerX / game.TILE_SIZE),
+      y: Math.floor(this.sprite.centerY / game.TILE_SIZE)
+    }
+  }
 }
 
 let bitmap = null
-function getBlankBitmap (tileSize, game) {
+function getBlankBitmap () {
   if (!bitmap) {
-    bitmap = game.make.bitmapData(tileSize, tileSize)
-    bitmap.circle(tileSize / 2, tileSize / 2, tileSize / 2, '#ff0000')
+    bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
+    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 2, '#ff0000')
   }
   return bitmap
 }
