@@ -6,18 +6,28 @@ const Animal = require('./Animal')
 global.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', {create, update})
 
 game.MAP_SIZE = 100
-game.TILE_SIZE = 10
+game.TILE_SIZE = 40
 game.ANIMAL_NUMBER = 10
 
 const tiles = []
 const animals = new Set()
 let borders
+let cursorKeys
+let worldScale = 1
+let player
 
 function create () {
+  cursorKeys = game.input.keyboard.createCursorKeys()
   game.physics.startSystem(Phaser.Physics.ARCADE)
+  const size = game.MAP_SIZE * game.TILE_SIZE
   game.scale.scaleMode = Phaser.ScaleManager.RESIZE
+  game.world.setBounds(-size, -size, size * 3, size * 3)
   game.stage.backgroundColor = '#555'
   borders = createBorders()
+
+  // Add an invisible player as a pivot for zoom.
+  player = createRect(size / 2, size / 2, 1, 1, 'rgba(0,0,0,0)')
+  game.camera.follow(player)
 
   for (let x = 0; x < game.MAP_SIZE; x++) {
     tiles[x] = []
@@ -36,11 +46,32 @@ function create () {
 }
 
 function update () {
+  updateCamera()
+
   tiles.forEach(row => row.forEach(tile => tile.render()))
   animals.forEach(animal => {
     animal.render()
     game.physics.arcade.collide(animal.sprite, borders)
   })
+}
+
+function updateCamera () {
+  if (cursorKeys.up.isDown) {
+    player.y -= 25
+  } else if (cursorKeys.down.isDown) {
+    player.y += 25
+  }
+
+  if (cursorKeys.left.isDown) {
+    player.x -= 25
+  } else if (cursorKeys.right.isDown) {
+    player.x += 25
+  }
+
+  if (game.input.keyboard.isDown(Phaser.Keyboard.Q)) worldScale += 0.1
+  else if (game.input.keyboard.isDown(Phaser.Keyboard.A)) worldScale -= 0.1
+  worldScale = game.math.clamp(worldScale, 0.5, 2)
+  game.world.scale.set(worldScale)
 }
 
 function tick () {
