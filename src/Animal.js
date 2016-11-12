@@ -9,7 +9,7 @@ class Animal {
     this.sprite = game.add.sprite(game.TILE_SIZE * x, game.TILE_SIZE * y, getBlankBitmap(game.TILE_SIZE, game))
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
 
-    this.brain = new Brain(2, 5, 5, 2)
+    this.brain = new Brain(2, 10, 10, 2)
   }
 
   tick (tile) {
@@ -28,7 +28,7 @@ class Animal {
     if (this.health < 0) this.health = 0
 
     let proposedSpeed = this.brain.ask([tile.food, this.health])
-    this.sprite.body.velocity.set(proposedSpeed[0] * 500 - 250, proposedSpeed[1] * 500 - 250)
+    this.sprite.body.velocity.set(proposedSpeed[0] * 1000 - 500, proposedSpeed[1] * 1000 - 500)
   }
 
   render () {

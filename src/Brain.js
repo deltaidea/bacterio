@@ -20,7 +20,7 @@ function mutate (net) {
 function mutateKey (array, key) {
   array.forEach(el => {
     if (Math.random() < 0.2) {
-      el[key] = game.math.clamp(el[key] + Math.random() - 0.5, -0.5, 0.5)
+      el[key] = game.math.clamp(el[key] + el[key] * (Math.random() - 0.5) * 3 + Math.random() - 0.5, -0.5, 0.5)
     }
   })
 }
