@@ -34,13 +34,13 @@ class Animal {
     if (this.health < 0) this.health = 0
 
     if (this.health > 250) {
-      this.health -= 100
+      this.health -= 80
       game.animals.add(new Animal(this.getPosition().x, this.getPosition().y, this))
     }
 
     let [v, a] = this.brain.ask([tile.food, this.health])
     this.sprite.angle += (a - 0.5) * 100
-    game.physics.arcade.velocityFromAngle(this.sprite.angle, -v * 200, this.sprite.body.velocity)
+    game.physics.arcade.velocityFromAngle(this.sprite.angle, -v * 150, this.sprite.body.velocity)
   }
 
   render () {
