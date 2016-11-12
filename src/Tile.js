@@ -21,8 +21,11 @@ class Tile {
 function foodToRgb (food) {
   // More food - less brightness.
   let brightness = 255 - food
-  // 2-digit hex number (0-255 dec) three times: 56 -> 565656.
-  return (brightness * 0x10000) + (brightness * 0x100) + brightness
+  let r = game.math.clamp(Math.round(brightness * 1.2), 0, 255)
+  let g = game.math.clamp(Math.round(brightness * 1.3), 0, 255)
+  let b = game.math.clamp(Math.round(brightness), 0, 255)
+  // Adding as 2-digit hex numbers (0-255 dec) to get css color value.
+  return (r * 0x10000) + (g * 0x100) + b
 }
 
 module.exports = Tile
