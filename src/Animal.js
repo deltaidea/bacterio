@@ -1,4 +1,5 @@
 const Phaser = require('./Phaser')
+const Brain = require('./Brain')
 
 class Animal {
   constructor (x, y) {
@@ -7,11 +8,12 @@ class Animal {
     this.health = game.math.between(200, 255)
     this.sprite = game.add.sprite(game.TILE_SIZE * x, game.TILE_SIZE * y, getBlankBitmap(game.TILE_SIZE, game))
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
-    this.sprite.body.velocity.set(80, 80)
+
+    this.brain = new Brain(2, 5, 5, 2)
   }
 
   tick (tile) {
-    this.health -= 3
+    this.health -= 2
 
     let amountEating = 0
 
@@ -24,6 +26,9 @@ class Animal {
     tile.food -= amountEating
 
     if (this.health < 0) this.health = 0
+
+    let proposedSpeed = this.brain.ask([tile.food, this.health])
+    this.sprite.body.velocity.set(proposedSpeed[0] * 500 - 250, proposedSpeed[1] * 500 - 250)
   }
 
   render () {

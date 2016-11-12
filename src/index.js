@@ -6,7 +6,7 @@ const Animal = require('./Animal')
 global.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', {create, update})
 
 game.MAP_SIZE = 100
-game.TILE_SIZE = 40
+game.TILE_SIZE = 20
 game.ANIMAL_NUMBER = 10
 
 const tiles = []
@@ -91,17 +91,21 @@ function tileAt (position) {
 
 function createBorders () {
   const size = game.MAP_SIZE * game.TILE_SIZE
-  const borders = game.add.physicsGroup()
+  const bordersGroup = game.add.physicsGroup()
 
-  const rightBorder = createRect(size, 0, 10, size, 'rgba(0,0,0,0)')
-  game.physics.enable(rightBorder, Phaser.Physics.ARCADE)
-  rightBorder.body.immovable = true
-  borders.add(rightBorder)
+  const borders = [
+    [0, -10, size, 10], // top
+    [size, 0, 10, size], // right
+    [0, size, size, 10], // bottom
+    [-10, 0, 10, size] // left
+  ]
 
-  const bottomBorder = createRect(0, size, size, 10, 'rgba(0,0,0,0)')
-  game.physics.enable(bottomBorder, Phaser.Physics.ARCADE)
-  bottomBorder.body.immovable = true
-  borders.add(bottomBorder)
+  borders.forEach(dimensions => {
+    const border = createRect(...dimensions, 'rgba(0,0,0,0)')
+    game.physics.enable(border, Phaser.Physics.ARCADE)
+    border.body.immovable = true
+    bordersGroup.add(border)
+  })
 
-  return borders
+  return bordersGroup
 }
