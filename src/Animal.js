@@ -15,7 +15,7 @@ class Animal {
     this.sprite.angle = game.math.between(-180, 180)
     game.physics.arcade.velocityFromAngle(this.sprite.angle, game.math.between(10, 200), this.sprite.body.velocity)
 
-    this.brain = parent ? new Brain(parent.brain) : new Brain(2, 10, 10, 2)
+    this.brain = parent ? new Brain(parent.brain) : new Brain(3, 10, 10, 2)
   }
 
   tick (tile) {
@@ -34,13 +34,13 @@ class Animal {
     if (this.health < 0) this.health = 0
 
     if (this.health > 250) {
-      this.health -= 80
+      this.health -= 40
       game.animals.add(new Animal(this.getPosition().x, this.getPosition().y, this))
     }
 
-    let [v, a] = this.brain.ask([tile.food, this.health])
+    let [v, a] = this.brain.ask([tile.food, this.health, this.getFoodAhead(1), this.getFoodAhead(2)])
     this.sprite.angle += (a - 0.5) * 100
-    game.physics.arcade.velocityFromAngle(this.sprite.angle, -v * 150, this.sprite.body.velocity)
+    game.physics.arcade.velocityFromAngle(this.sprite.angle, -v * 200, this.sprite.body.velocity)
   }
 
   render () {
@@ -51,11 +51,29 @@ class Animal {
     this.sprite.destroy()
   }
 
-  getPosition () {
+  getPosition (point = this.sprite) {
     return {
-      x: Math.floor(this.sprite.centerX / game.TILE_SIZE),
-      y: Math.floor(this.sprite.centerY / game.TILE_SIZE)
+      x: Math.floor(point.centerX / game.TILE_SIZE),
+      y: Math.floor(point.centerY / game.TILE_SIZE)
     }
+  }
+
+  getFoodAhead (tilesAhead) {
+    const velocityXSign = this.sprite.body.velocity.x >= 0 ? 1 : -1
+    const velocityYSign = this.sprite.body.velocity.y >= 0 ? 1 : -1
+    const velocityXAbs = Math.abs(this.sprite.body.velocity.x)
+    const velocityYAbs = Math.abs(this.sprite.body.velocity.y)
+
+    const s = game.TILE_SIZE
+
+    const pointAhead = {
+      centerX: this.sprite.centerX + velocityXSign * game.math.clamp(velocityXAbs, (s - 0.5) * tilesAhead, s * tilesAhead),
+      centerY: this.sprite.centerY + velocityYSign * game.math.clamp(velocityYAbs, (s - 0.5) * tilesAhead, s * tilesAhead)
+    }
+    const positionAhead = this.getPosition(pointAhead)
+    const tileAhead = (game.tiles[positionAhead.x] || [])[positionAhead.y] || {}
+
+    return tileAhead.food == null ? -1 : tileAhead.food
   }
 }
 
