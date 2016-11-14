@@ -27,7 +27,7 @@ class Animal {
 
     let amountEating = 0
 
-    if (tile.food >= 5) amountEating = 5
+    if (tile.food >= 5) amountEating = 4
     else amountEating = tile.food
 
     if ((255 - this.health) < amountEating) amountEating = 255 - this.health
@@ -40,8 +40,8 @@ class Animal {
 
     const [speed, turn, wantToBreed] = this.brain.ask([tile.food, this.health, this.getFoodAhead(1), this.getFoodAhead(2)])
 
-    if (this.health > 250 && wantToBreed > 0.7) {
-      this.health -= 40
+    if (this.health > 250 && wantToBreed > 0.5) {
+      this.health -= 70
       game.animals.add(new Animal(this.getPosition().x, this.getPosition().y, this))
     }
 
