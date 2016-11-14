@@ -3,7 +3,7 @@ const Tile = require('./Tile')
 const Animal = require('./Animal')
 
 const MAP_SIZE = 40
-const TILE_SIZE = 40
+const TILE_SIZE = 20
 
 global.game = new Phaser.Game(MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE,
   Phaser.AUTO, 'game-container', {create, render, update})
@@ -36,16 +36,20 @@ function create () {
   }
 
   game.input.keyboard.addCallbacks(null, (event) => {
-    let scale = 1 / game.scale.scaleFactor.x
-    // '+' without shift is '='
+    // Scale up. '+' without shift is '='
     if (event.key === '+' || event.key === '=') {
-      game.scale.setUserScale(scale + 0.05, scale + 0.05, 0, 0)
+      let scale = game.math.clamp(1 / game.scale.scaleFactor.x + 0.05, 0.1, 1)
+      game.scale.setUserScale(scale, scale, 0, 0)
+    // Scale down.
     } else if (event.key === '-') {
-      game.scale.setUserScale(scale - 0.05, scale - 0.05, 0, 0)
+      let scale = game.math.clamp(1 / game.scale.scaleFactor.x - 0.05, 0.1, 1)
+      game.scale.setUserScale(scale, scale, 0, 0)
+    // Speed up.
     } else if (event.key === 'q') {
-      game.SPEED_MULTIPLIER *= 2
+      game.SPEED_MULTIPLIER = game.math.clamp(game.SPEED_MULTIPLIER * 2, 1, 128)
+    // Speed down.
     } else if (event.key === 'a') {
-      game.SPEED_MULTIPLIER /= 2
+      game.SPEED_MULTIPLIER = game.math.clamp(game.SPEED_MULTIPLIER / 2, 1, 128)
     }
   })
 }
