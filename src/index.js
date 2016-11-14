@@ -68,6 +68,8 @@ function render () {
 // Call `game.updateLogic` manually when SPEED_MULTIPLIER > 1.
 let manualUpdate = false
 
+let maxScoreOverall = 0
+
 function update () {
   if (!manualUpdate) {
     manualUpdate = true
@@ -75,17 +77,23 @@ function update () {
     manualUpdate = false
   }
 
-  document.querySelector('#population').innerText = animals.size
+  let maxScoreAlive = 0
 
   tiles.forEach(row => row.forEach(tile => tile.tick()))
   animals.forEach(animal => {
     animal.tick(tileAt(animal.getPosition()))
+    if (maxScoreAlive < animal.score) maxScoreAlive = animal.score
+    if (maxScoreOverall < animal.score) maxScoreOverall = animal.score
     if (animal.health <= 0) {
       animal.destroy()
       animals.delete(animal)
       if (animals.size < game.ANIMAL_NUMBER) spawnAnimal()
     }
   })
+
+  document.querySelector('#population').innerText = animals.size
+  document.querySelector('#max-score-alive').innerText = Math.floor(maxScoreAlive)
+  document.querySelector('#max-score-overall').innerText = Math.floor(maxScoreOverall)
 }
 
 function tileAt (position) {
