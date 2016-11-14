@@ -5,6 +5,7 @@ class Animal {
   constructor (x, y, parent) {
     this.health = game.math.between(100, 150)
     this.age = 0
+    this.score = 0
 
     let bitmap = game.make.bitmapData(game.TILE_SIZE * 2, game.TILE_SIZE * 2)
     bitmap.circle(game.TILE_SIZE, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
@@ -31,6 +32,7 @@ class Animal {
     if ((255 - this.health) < amountEating) amountEating = 255 - this.health
 
     this.health += amountEating
+    this.score += amountEating
     tile.food -= amountEating
 
     if (this.health < 0) this.health = 0
