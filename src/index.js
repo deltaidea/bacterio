@@ -2,8 +2,8 @@ const Phaser = require('./Phaser')
 const Tile = require('./Tile')
 const Animal = require('./Animal')
 
-const MAP_SIZE = 40
-const TILE_SIZE = 20
+const MAP_SIZE = 60
+const TILE_SIZE = 30
 
 global.game = new Phaser.Game(MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE,
   Phaser.AUTO, 'game-container', {create, render, update})
