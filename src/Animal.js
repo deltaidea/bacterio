@@ -5,9 +5,9 @@ class Animal {
   constructor (x, y, parent) {
     this.health = game.math.between(100, 150)
 
-    let bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
-    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 4, '#ff0000')
-    bitmap.circle(game.TILE_SIZE / 4, game.TILE_SIZE / 2, game.TILE_SIZE / 8, '#0000ff')
+    let bitmap = game.make.bitmapData(game.TILE_SIZE * 2, game.TILE_SIZE * 2)
+    bitmap.circle(game.TILE_SIZE, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
+    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE, game.TILE_SIZE / 2, '#9999ff')
     this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), bitmap)
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
     this.sprite.anchor.setTo(0.5, 0.5)
@@ -79,10 +79,11 @@ class Animal {
 }
 
 function healthToRgb (health) {
-  // More health - less brightness.
-  let brightness = 128 + Math.floor(health / 2)
-  // 2-digit hex number (0-255 dec) three times: 56 -> 565656.
-  return (brightness * 0x10000) + (brightness * 0x100) + brightness
+  let r = game.math.clamp(Math.round(255 - health), 0, 255)
+  let g = game.math.clamp(Math.round(health * 1.2), 0, 255)
+  let b = game.math.clamp(Math.round(health * 0.6), 0, 255)
+  // Adding as 2-digit hex numbers (0-255 dec) to get css color value.
+  return (r * 0x10000) + (g * 0x100) + b
 }
 
 module.exports = Animal

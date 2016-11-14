@@ -5,8 +5,8 @@ const Animal = require('./Animal')
 
 global.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', {create, update})
 
-game.MAP_SIZE = 50
-game.TILE_SIZE = 20
+game.MAP_SIZE = 80
+game.TILE_SIZE = 12
 game.ANIMAL_NUMBER = 20
 
 const tiles = []
@@ -47,8 +47,8 @@ function create () {
 }
 
 function spawnAnimal () {
-  const x = game.math.between(0, game.MAP_SIZE - 1)
-  const y = game.math.between(0, game.MAP_SIZE - 1)
+  const x = game.math.between(1, game.MAP_SIZE - 2)
+  const y = game.math.between(1, game.MAP_SIZE - 2)
   animals.add(new Animal(x, y))
 }
 
