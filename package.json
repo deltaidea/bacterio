@@ -6,8 +6,8 @@
   "scripts": {
     "start": "webpack src/index.js dist/scripts.js --watch",
     "build": "webpack src/index.js dist/scripts.js",
-    "clean-source": "rimraf README.md, src",
     "deploy": "gh-pages-deploy",
+    "add-dist": "git add -f dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -40,7 +40,7 @@
       "build"
     ],
     "post": [
-      "clean-source"
+      "add-dist"
     ],
     "noprompt": false
   }
