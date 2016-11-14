@@ -3,7 +3,7 @@ const createRect = require('./createRect')
 const Tile = require('./Tile')
 const Animal = require('./Animal')
 
-global.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', {create, update})
+global.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', {create, render, update})
 
 game.MAP_SIZE = 80
 game.TILE_SIZE = 12
@@ -42,8 +42,6 @@ function create () {
   for (let i = 0; i < game.ANIMAL_NUMBER; i++) {
     spawnAnimal()
   }
-
-  game.time.events.loop(16, tick)
 }
 
 function spawnAnimal () {
@@ -52,13 +50,23 @@ function spawnAnimal () {
   animals.add(new Animal(x, y))
 }
 
+function render () {
+  tiles.forEach(row => row.forEach(tile => tile.render()))
+  animals.forEach(animal => animal.render())
+}
+
 function update () {
   updateCamera()
 
-  tiles.forEach(row => row.forEach(tile => tile.render()))
+  tiles.forEach(row => row.forEach(tile => tile.tick()))
   animals.forEach(animal => {
-    animal.render()
     game.physics.arcade.collide(animal.sprite, borders)
+    animal.tick(tileAt(animal.getPosition()))
+    if (animal.health <= 0) {
+      animal.destroy()
+      animals.delete(animal)
+      if (animals.size < game.ANIMAL_NUMBER) spawnAnimal()
+    }
   })
 }
 
@@ -79,18 +87,6 @@ function updateCamera () {
   else if (game.input.keyboard.isDown(Phaser.Keyboard.A)) worldScale -= 0.1
   worldScale = game.math.clamp(worldScale, 0.5, 2)
   game.world.scale.set(worldScale)
-}
-
-function tick () {
-  tiles.forEach(row => row.forEach(tile => tile.tick()))
-  animals.forEach(animal => {
-    animal.tick(tileAt(animal.getPosition()))
-    if (animal.health <= 0) {
-      animal.destroy()
-      animals.delete(animal)
-      if (animals.size < game.ANIMAL_NUMBER) spawnAnimal()
-    }
-  })
 }
 
 function tileAt (position) {
