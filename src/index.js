@@ -75,6 +75,8 @@ function update () {
     manualUpdate = false
   }
 
+  document.querySelector('#population').innerText = animals.size
+
   tiles.forEach(row => row.forEach(tile => tile.tick()))
   animals.forEach(animal => {
     animal.tick(tileAt(animal.getPosition()))
