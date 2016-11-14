@@ -2,7 +2,7 @@ const synaptic = require('synaptic')
 
 class Brain {
   constructor (...layers) {
-    if (layers[0] instanceof Brain) this.net = mutate(layers[0].net, 0.2)
+    if (layers[0] instanceof Brain) this.net = mutate(layers[0].net, 0.1)
     else this.net = mutate(new synaptic.Architect.Perceptron(...layers), 0.8)
   }
 
@@ -21,7 +21,7 @@ function mutate (net, intensity) {
 function mutateKey (array, key, intensity) {
   array.forEach(el => {
     if (Math.random() < intensity) {
-      el[key] = game.math.clamp(el[key] + (Math.random() - 0.5) / 2, -0.5, 0.5)
+      el[key] = game.math.clamp(el[key] + (Math.random() - 0.5) / 4, -0.5, 0.5)
     }
   })
 }
