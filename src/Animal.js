@@ -7,9 +7,9 @@ class Animal {
     this.age = 0
     this.score = 0
 
-    let bitmap = game.make.bitmapData(game.TILE_SIZE * 2, game.TILE_SIZE * 2)
-    bitmap.circle(game.TILE_SIZE, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
-    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE, game.TILE_SIZE / 2, '#9999ff')
+    let bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
+    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 2, '#ffffff')
+    bitmap.circle(game.TILE_SIZE / 4, game.TILE_SIZE / 2, game.TILE_SIZE / 4, '#9999ff')
     this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), bitmap)
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
     this.sprite.anchor.setTo(0.5, 0.5)

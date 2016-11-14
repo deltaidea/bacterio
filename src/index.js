@@ -47,8 +47,8 @@ function create () {
 }
 
 function spawnAnimal () {
-  const x = game.math.between(1, game.MAP_SIZE - 2)
-  const y = game.math.between(1, game.MAP_SIZE - 2)
+  const x = game.math.between(0, game.MAP_SIZE - 1)
+  const y = game.math.between(0, game.MAP_SIZE - 1)
   animals.add(new Animal(x, y))
 }
 
