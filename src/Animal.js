@@ -12,6 +12,7 @@ class Animal {
     bitmap.circle(game.TILE_SIZE / 4, game.TILE_SIZE / 2, game.TILE_SIZE / 4, '#9999ff')
     this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), bitmap)
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
+    this.sprite.body.collideWorldBounds = true
     this.sprite.anchor.setTo(0.5, 0.5)
 
     this.sprite.angle = game.math.between(-180, 180)
