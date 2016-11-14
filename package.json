@@ -34,7 +34,6 @@
     "webpack": "^1.13.3"
   },
   "gh-pages-deploy": {
-    "staticpath": "dist",
     "prep": [
       "build"
     ],
