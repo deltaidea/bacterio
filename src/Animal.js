@@ -6,6 +6,7 @@ class Animal {
     this.health = game.math.between(100, 150)
     this.age = 0
     this.score = 0
+    this.generation = parent ? parent.generation + 1 : 1
 
     let bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
     bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 2, '#ffffff')

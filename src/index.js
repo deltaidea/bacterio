@@ -69,6 +69,8 @@ function render () {
 let manualUpdate = false
 
 let maxScoreOverall = 0
+let maxAgeOverall = 0
+let maxGenerationOverall = 0
 
 function update () {
   if (!manualUpdate) {
@@ -78,12 +80,18 @@ function update () {
   }
 
   let maxScoreAlive = 0
+  let maxAgeAlive = 0
+  let maxGenerationAlive = 0
 
   tiles.forEach(row => row.forEach(tile => tile.tick()))
   animals.forEach(animal => {
     animal.tick(tileAt(animal.getPosition()))
     if (maxScoreAlive < animal.score) maxScoreAlive = animal.score
     if (maxScoreOverall < animal.score) maxScoreOverall = animal.score
+    if (maxAgeAlive < animal.age) maxAgeAlive = animal.age
+    if (maxAgeOverall < animal.age) maxAgeOverall = animal.age
+    if (maxGenerationAlive < animal.generation) maxGenerationAlive = animal.generation
+    if (maxGenerationOverall < animal.generation) maxGenerationOverall = animal.generation
     if (animal.health <= 0) {
       animal.destroy()
       animals.delete(animal)
@@ -94,6 +102,10 @@ function update () {
   document.querySelector('#population').innerText = animals.size
   document.querySelector('#max-score-alive').innerText = Math.floor(maxScoreAlive)
   document.querySelector('#max-score-overall').innerText = Math.floor(maxScoreOverall)
+  document.querySelector('#max-age-alive').innerText = Math.floor(maxAgeAlive)
+  document.querySelector('#max-age-overall').innerText = Math.floor(maxAgeOverall)
+  document.querySelector('#max-generation-alive').innerText = Math.floor(maxGenerationAlive)
+  document.querySelector('#max-generation-overall').innerText = Math.floor(maxGenerationOverall)
 }
 
 function tileAt (position) {
