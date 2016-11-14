@@ -1,5 +1,5 @@
 {
-  "name": "evolo",
+  "name": "bacterio",
   "version": "0.0.0",
   "description": "Machine Learning and Evolution experiments",
   "private": true,
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deltaidea/evolo.git"
+    "url": "git+https://github.com/deltaidea/bacterio.git"
   },
   "author": "Nikita Litvin <n@deltaidea.com> (https://github.com/deltaidea)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/deltaidea/evolo/issues"
+    "url": "https://github.com/deltaidea/bacterio/issues"
   },
-  "homepage": "https://github.com/deltaidea/evolo#readme",
+  "homepage": "https://github.com/deltaidea/bacterio#readme",
   "dependencies": {
     "phaser": "^2.6.2",
     "synaptic": "^1.0.8"
