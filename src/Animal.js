@@ -4,6 +4,7 @@ const Brain = require('./Brain')
 class Animal {
   constructor (x, y, parent) {
     this.health = game.math.between(100, 150)
+    this.age = 0
 
     let bitmap = game.make.bitmapData(game.TILE_SIZE * 2, game.TILE_SIZE * 2)
     bitmap.circle(game.TILE_SIZE, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
@@ -19,7 +20,8 @@ class Animal {
   }
 
   tick (tile) {
-    this.health -= 2
+    this.health -= 2 + Math.sqrt(this.age * 0.01)
+    this.age += 0.01
 
     let amountEating = 0
 
