@@ -31,7 +31,6 @@
   },
   "devDependencies": {
     "gh-pages-deploy": "^0.4.2",
-    "rimraf": "^2.5.4",
     "webpack": "^1.13.3"
   },
   "gh-pages-deploy": {
