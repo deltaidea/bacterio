@@ -4,15 +4,14 @@ const Animal = require('./Animal')
 
 const MAP_SIZE = 40
 const TILE_SIZE = 40
-const ANIMAL_NUMBER = 5
 
-const GAME_SIZE = MAP_SIZE * TILE_SIZE
-
-global.game = new Phaser.Game(GAME_SIZE, GAME_SIZE, Phaser.AUTO, 'game-container', {create, render, update})
+global.game = new Phaser.Game(MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE,
+  Phaser.AUTO, 'game-container', {create, render, update})
 
 game.MAP_SIZE = MAP_SIZE
 game.TILE_SIZE = TILE_SIZE
-game.ANIMAL_NUMBER = ANIMAL_NUMBER
+game.ANIMAL_NUMBER = 5
+game.SPEED_MULTIPLIER = 1
 
 const tiles = []
 const animals = new Set()
@@ -37,11 +36,17 @@ function create () {
   }
 
   game.input.keyboard.addCallbacks(null, (event) => {
-    let scaleFactor = 1 / game.scale.scaleFactor.x
+    let scale = 1 / game.scale.scaleFactor.x
     // '+' without shift is '='
-    if (event.key === '+' || event.key === '=') scaleFactor += 0.05
-    else if (event.key === '-') scaleFactor -= 0.05
-    game.scale.setUserScale(scaleFactor, scaleFactor, 0, 0)
+    if (event.key === '+' || event.key === '=') {
+      game.scale.setUserScale(scale + 0.05, scale + 0.05, 0, 0)
+    } else if (event.key === '-') {
+      game.scale.setUserScale(scale - 0.05, scale - 0.05, 0, 0)
+    } else if (event.key === 'q') {
+      game.SPEED_MULTIPLIER *= 2
+    } else if (event.key === 'a') {
+      game.SPEED_MULTIPLIER /= 2
+    }
   })
 }
 
@@ -56,7 +61,16 @@ function render () {
   animals.forEach(animal => animal.render())
 }
 
+// Call `game.updateLogic` manually when SPEED_MULTIPLIER > 1.
+let manualUpdate = false
+
 function update () {
+  if (!manualUpdate) {
+    manualUpdate = true
+    for (let i = 1; i < game.SPEED_MULTIPLIER; i++) game.updateLogic(Date.now())
+    manualUpdate = false
+  }
+
   tiles.forEach(row => row.forEach(tile => tile.tick()))
   animals.forEach(animal => {
     animal.tick(tileAt(animal.getPosition()))
