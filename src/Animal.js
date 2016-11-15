@@ -8,10 +8,7 @@ class Animal {
     this.score = 0
     this.generation = parent ? parent.generation + 1 : 1
 
-    let bitmap = game.make.bitmapData(game.TILE_SIZE, game.TILE_SIZE)
-    bitmap.circle(game.TILE_SIZE / 2, game.TILE_SIZE / 2, game.TILE_SIZE / 2, '#ffffff')
-    bitmap.circle(game.TILE_SIZE / 4, game.TILE_SIZE / 2, game.TILE_SIZE / 4, '#9999ff')
-    this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), bitmap)
+    this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), game.cache.getBitmapData('animal' + this.health))
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
     this.sprite.body.collideWorldBounds = true
     this.sprite.anchor.setTo(0.5, 0.5)
@@ -38,7 +35,6 @@ class Animal {
       this.health += amountEating
       this.score += amountEating
       tile.food -= amountEating
-      tile.updateColor()
     }
 
     if (this.health < 0) this.health = 0
@@ -52,12 +48,10 @@ class Animal {
 
     this.sprite.angle += (turn - 0.5) * 100
     game.physics.arcade.velocityFromAngle(this.sprite.angle, -speed * 200, this.sprite.body.velocity)
-
-    this.updateColor()
   }
 
   updateColor () {
-    this.sprite.tint = healthToRgb(this.health)
+    this.sprite.loadTexture(game.cache.getBitmapData('animal' + Math.floor(this.health)))
   }
 
   destroy () {
@@ -88,14 +82,6 @@ class Animal {
 
     return tileAhead.food == null ? -1 : tileAhead.food
   }
-}
-
-function healthToRgb (health) {
-  let r = game.math.clamp(Math.round(255 - health), 0, 255)
-  let g = game.math.clamp(Math.round(health * 1.2), 0, 255)
-  let b = game.math.clamp(Math.round(health * 0.6), 0, 255)
-  // Adding as 2-digit hex numbers (0-255 dec) to get css color value.
-  return (r * 0x10000) + (g * 0x100) + b
 }
 
 module.exports = Animal

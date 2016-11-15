@@ -1,6 +1,7 @@
 const Phaser = require('./Phaser')
 const Tile = require('./Tile')
 const Animal = require('./Animal')
+const generateTextures = require('./generateTextures')
 
 const MAP_SIZE = 60
 const TILE_SIZE = 30
@@ -22,6 +23,8 @@ function create () {
   game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE
   game.scale.setUserScale(0.3, 0.3, 0, 0)
   game.stage.backgroundColor = '#555'
+
+  generateTextures(TILE_SIZE)
 
   game.tiles = tiles
   game.animals = animals
@@ -113,6 +116,8 @@ function update () {
 }
 
 function render () {
+  animals.forEach(a => a.updateColor())
+
   window['game-speed'].innerText = game.SPEED_MULTIPLIER
   window['population-now'].innerText = animals.size
   window['population-max'].innerText = maxPopulation
