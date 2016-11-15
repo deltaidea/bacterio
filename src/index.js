@@ -5,7 +5,7 @@ const generateTextures = require('./generateTextures')
 
 const MAP_SIZE = 50
 const TILE_SIZE = 30
-const FOOD_ABUNDANCE = 5
+const FOOD_ABUNDANCE = 10
 const DEFAULT_ZOOM = 0.5
 
 global.game = new Phaser.Game({
@@ -18,7 +18,7 @@ global.game = new Phaser.Game({
 
 game.MAP_SIZE = MAP_SIZE
 game.TILE_SIZE = TILE_SIZE
-game.ANIMAL_NUMBER = 5
+game.ANIMAL_NUMBER = 20
 game.SPEED_MULTIPLIER = 1
 
 const tiles = []
@@ -107,7 +107,7 @@ function update () {
     const x = game.math.between(0, game.MAP_SIZE - 1)
     const y = game.math.between(0, game.MAP_SIZE - 1)
     const tile = tileAt({x, y})
-    tile.food += 20
+    tile.food += FOOD_ABUNDANCE
     if (tile.food > 255) tile.food = 255
     tile.updateColor()
   }
