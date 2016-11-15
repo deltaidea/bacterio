@@ -38,6 +38,7 @@ class Animal {
       this.health += amountEating
       this.score += amountEating
       tile.food -= amountEating
+      tile.updateColor()
     }
 
     if (this.health < 0) this.health = 0
@@ -52,10 +53,7 @@ class Animal {
     this.sprite.angle += (turn - 0.5) * 100
     game.physics.arcade.velocityFromAngle(this.sprite.angle, -speed * 200, this.sprite.body.velocity)
 
-    if (amountEating) {
-      this.updateColor()
-      tile.updateColor()
-    }
+    this.updateColor()
   }
 
   updateColor () {
