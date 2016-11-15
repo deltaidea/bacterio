@@ -12,7 +12,7 @@ module.exports = function generateBitmaps (size) {
   for (let health = 0; health <= 255; health++) {
     let bitmap = game.make.bitmapData(size, size)
     bitmap.circle(size / 2, size / 2, size / 2, rgbToCss(255 - health, health * 1.2, 0))
-    bitmap.circle(size / 4, size / 2, size / 4, rgbToCss((255 - health) * 0.5, health * 0.6, 0))
+    bitmap.circle(size * 0.75, size / 2, size / 4, rgbToCss((255 - health) * 0.5, health * 0.6, 0))
     game.cache.addBitmapData('animal' + health, bitmap)
   }
 }

@@ -14,10 +14,13 @@ class Animal {
     this.sprite.anchor.setTo(0.5, 0.5)
     this.updateColor()
 
+    // Back-reference for collision handling based on sprites.
+    this.sprite.animal = this
+
     this.sprite.angle = game.math.between(-180, 180)
     game.physics.arcade.velocityFromAngle(this.sprite.angle, game.math.between(10, 200), this.sprite.body.velocity)
 
-    this.brain = parent ? new Brain(parent.brain) : new Brain(4, 10, 10, 3)
+    this.brain = parent ? new Brain(parent.brain) : new Brain(6, 10, 10, 3)
   }
 
   tick (tile) {
@@ -40,7 +43,14 @@ class Animal {
 
     if (this.health < 0) this.health = 0
 
-    const [speed, turn, wantToBreed] = this.brain.ask([tile.food, this.health, this.getFoodAhead(1), this.getFoodAhead(2)])
+    const [speed, turn, wantToBreed] = this.brain.ask([
+      tile.food,
+      this.health,
+      this.getFoodAhead(-30, 1),
+      this.getFoodAhead(0, 2),
+      this.getFoodAhead(30, 1),
+      this.overlapWithAnother
+    ])
 
     if (this.health > 250 && wantToBreed > 0.5) {
       this.health -= 70
@@ -48,7 +58,7 @@ class Animal {
     }
 
     this.sprite.angle += (turn - 0.5) * 100
-    game.physics.arcade.velocityFromAngle(this.sprite.angle, -speed * 200, this.sprite.body.velocity)
+    game.physics.arcade.velocityFromAngle(this.sprite.angle, speed * 200, this.sprite.body.velocity)
   }
 
   updateColor () {
@@ -61,24 +71,16 @@ class Animal {
 
   getPosition (point = this.sprite) {
     return {
-      x: Math.floor(point.centerX / game.TILE_SIZE),
-      y: Math.floor(point.centerY / game.TILE_SIZE)
+      x: Math.floor(point.x / game.TILE_SIZE),
+      y: Math.floor(point.y / game.TILE_SIZE)
     }
   }
 
-  getFoodAhead (tilesAhead) {
-    const velocityXSign = this.sprite.body.velocity.x >= 0 ? 1 : -1
-    const velocityYSign = this.sprite.body.velocity.y >= 0 ? 1 : -1
-    const velocityXAbs = Math.abs(this.sprite.body.velocity.x)
-    const velocityYAbs = Math.abs(this.sprite.body.velocity.y)
+  getFoodAhead (angle, tiles) {
+    const line = new Phaser.Line().fromAngle(this.sprite.centerX, this.sprite.centerY,
+      game.math.degToRad(this.sprite.angle + angle), game.TILE_SIZE * tiles)
 
-    const s = game.TILE_SIZE
-
-    const pointAhead = {
-      centerX: this.sprite.centerX + velocityXSign * game.math.clamp(velocityXAbs, (s - 0.5) * tilesAhead, s * tilesAhead),
-      centerY: this.sprite.centerY + velocityYSign * game.math.clamp(velocityYAbs, (s - 0.5) * tilesAhead, s * tilesAhead)
-    }
-    const positionAhead = this.getPosition(pointAhead)
+    const positionAhead = this.getPosition(line.end)
     const tileAhead = (game.tiles[positionAhead.x] || [])[positionAhead.y] || {}
 
     return tileAhead.food == null ? -1 : tileAhead.food

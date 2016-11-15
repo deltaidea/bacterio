@@ -112,8 +112,17 @@ function update () {
     tile.updateColor()
   }
 
-  let animalGroup = Array.from(animals).map(a => a.sprite)
+  let animalGroup = Array.from(animals).map(a => {
+    a.overlapWithAnother = 0
+    return a.sprite
+  })
+
   game.physics.arcade.collide(animalGroup, animalGroup)
+
+  game.physics.arcade.overlap(animalGroup, animalGroup, (a, b) => {
+    const dis = game.physics.arcade.distanceBetween(a, b)
+    b.animal.overlapWithAnother = a.animal.overlapWithAnother = TILE_SIZE - Math.min(dis, TILE_SIZE)
+  })
 
   animals.forEach(animal => {
     animal.tick(tileAt(animal.getPosition()))
