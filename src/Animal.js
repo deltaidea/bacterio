@@ -19,7 +19,7 @@ class Animal {
     this.sprite.angle = game.math.between(-180, 180)
     game.physics.arcade.velocityFromAngle(this.sprite.angle, game.math.between(10, 200), this.sprite.body.velocity)
 
-    this.brain = parent ? new Brain(parent.brain) : new Brain(3, 10, 10, 3)
+    this.brain = parent ? new Brain(parent.brain) : new Brain(4, 10, 10, 3)
   }
 
   tick (tile) {
