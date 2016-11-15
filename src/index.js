@@ -117,8 +117,6 @@ function update () {
     return a.sprite
   })
 
-  game.physics.arcade.collide(animalGroup, animalGroup)
-
   game.physics.arcade.overlap(animalGroup, animalGroup, (a, b) => {
     const dis = game.physics.arcade.distanceBetween(a, b)
     b.animal.overlapWithAnother = a.animal.overlapWithAnother = TILE_SIZE - Math.min(dis, TILE_SIZE)
@@ -156,5 +154,5 @@ function render () {
 }
 
 function tileAt (position) {
-  return tiles[position.x][position.y]
+  return (tiles[position.x] || [])[position.y] || {food: 0}
 }

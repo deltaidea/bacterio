@@ -10,6 +10,7 @@ class Animal {
 
     this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), game.cache.getBitmapData('animal' + this.health))
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
+    this.sprite.body.setCircle(game.TILE_SIZE / 2)
     this.sprite.body.collideWorldBounds = true
     this.sprite.anchor.setTo(0.5, 0.5)
     this.updateColor()
@@ -54,7 +55,8 @@ class Animal {
 
     if (this.health > 250 && wantToBreed > 0.5) {
       this.health -= 70
-      game.animals.add(new Animal(this.getPosition().x, this.getPosition().y, this))
+      const {x, y} = this.getPosition()
+      game.animals.add(new Animal(x, y, this))
     }
 
     this.sprite.angle += (turn - 0.5) * 100
@@ -69,7 +71,8 @@ class Animal {
     this.sprite.destroy()
   }
 
-  getPosition (point = this.sprite) {
+  getPosition (point) {
+    point = point || {x: this.sprite.centerX, y: this.sprite.centerY}
     return {
       x: Math.floor(point.x / game.TILE_SIZE),
       y: Math.floor(point.y / game.TILE_SIZE)
