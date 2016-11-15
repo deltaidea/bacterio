@@ -7,7 +7,7 @@ const TILE_SIZE = 30
 const FOOD_ABUNDANCE = 10
 
 global.game = new Phaser.Game(MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE,
-  Phaser.AUTO, 'game-container', {create, update})
+  Phaser.AUTO, 'game-container', {create, update, render})
 
 game.MAP_SIZE = MAP_SIZE
 game.TILE_SIZE = TILE_SIZE
@@ -68,6 +68,11 @@ let manualUpdate = false
 let maxScoreOverall = 0
 let maxAgeOverall = 0
 let maxGenerationOverall = 0
+let maxPopulation = 0
+
+let maxScoreAlive = 0
+let maxAgeAlive = 0
+let maxGenerationAlive = 0
 
 function update () {
   if (!manualUpdate) {
@@ -76,9 +81,11 @@ function update () {
     manualUpdate = false
   }
 
-  let maxScoreAlive = 0
-  let maxAgeAlive = 0
-  let maxGenerationAlive = 0
+  maxScoreAlive = 0
+  maxAgeAlive = 0
+  maxGenerationAlive = 0
+
+  if (maxPopulation < animals.size) maxPopulation = animals.size
 
   for (let i = 0; i < FOOD_ABUNDANCE; i++) {
     const x = game.math.between(0, game.MAP_SIZE - 1)
@@ -103,14 +110,18 @@ function update () {
       if (animals.size < game.ANIMAL_NUMBER) spawnAnimal()
     }
   })
+}
 
-  document.querySelector('#population').innerText = animals.size
-  document.querySelector('#max-score-alive').innerText = Math.floor(maxScoreAlive)
-  document.querySelector('#max-score-overall').innerText = Math.floor(maxScoreOverall)
-  document.querySelector('#max-age-alive').innerText = Math.floor(maxAgeAlive)
-  document.querySelector('#max-age-overall').innerText = Math.floor(maxAgeOverall)
-  document.querySelector('#max-generation-alive').innerText = Math.floor(maxGenerationAlive)
-  document.querySelector('#max-generation-overall').innerText = Math.floor(maxGenerationOverall)
+function render () {
+  window['game-speed'].innerText = game.SPEED_MULTIPLIER
+  window['population-now'].innerText = animals.size
+  window['population-max'].innerText = maxPopulation
+  window['max-score-now'].innerText = Math.floor(maxScoreAlive)
+  window['max-score-max'].innerText = Math.floor(maxScoreOverall)
+  window['max-age-now'].innerText = Math.floor(maxAgeAlive)
+  window['max-age-max'].innerText = Math.floor(maxAgeOverall)
+  window['max-generation-now'].innerText = Math.floor(maxGenerationAlive)
+  window['max-generation-max'].innerText = Math.floor(maxGenerationOverall)
 }
 
 function tileAt (position) {
