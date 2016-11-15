@@ -35,7 +35,7 @@ function mutate (net, intensity) {
 function mutateKey (array, key, intensity) {
   array.forEach(el => {
     if (Math.random() < intensity) {
-      el[key] = game.math.clamp(el[key] + (Math.random() - 0.5) / 4, -0.5, 0.5)
+      el[key] = game.math.clamp(el[key] + (Math.random() - 0.5) * intensity, -0.5, 0.5)
     }
   })
 }
