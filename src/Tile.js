@@ -6,14 +6,10 @@ class Tile {
     this.y = y
     this.food = game.math.between(0, 50)
     this.sprite = createRect(game.TILE_SIZE * x, game.TILE_SIZE * y, game.TILE_SIZE, game.TILE_SIZE, '#ffffff')
+    this.updateColor()
   }
 
-  tick () {
-    if (game.math.between(0, 500) === 0) this.food += 20
-    if (this.food > 255) this.food = 255
-  }
-
-  render () {
+  updateColor () {
     this.sprite.tint = foodToRgb(this.food)
   }
 }

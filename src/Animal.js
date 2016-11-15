@@ -15,6 +15,7 @@ class Animal {
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
     this.sprite.body.collideWorldBounds = true
     this.sprite.anchor.setTo(0.5, 0.5)
+    this.updateColor()
 
     this.sprite.angle = game.math.between(-180, 180)
     game.physics.arcade.velocityFromAngle(this.sprite.angle, game.math.between(10, 200), this.sprite.body.velocity)
@@ -33,9 +34,11 @@ class Animal {
 
     if ((255 - this.health) < amountEating) amountEating = 255 - this.health
 
-    this.health += amountEating
-    this.score += amountEating
-    tile.food -= amountEating
+    if (amountEating) {
+      this.health += amountEating
+      this.score += amountEating
+      tile.food -= amountEating
+    }
 
     if (this.health < 0) this.health = 0
 
@@ -48,9 +51,14 @@ class Animal {
 
     this.sprite.angle += (turn - 0.5) * 100
     game.physics.arcade.velocityFromAngle(this.sprite.angle, -speed * 200, this.sprite.body.velocity)
+
+    if (amountEating) {
+      this.updateColor()
+      tile.updateColor()
+    }
   }
 
-  render () {
+  updateColor () {
     this.sprite.tint = healthToRgb(this.health)
   }
 

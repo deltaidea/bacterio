@@ -10,10 +10,18 @@ class Brain {
     this.net.neurons().forEach(n => {
       delete synaptic.Layer.prototype.neurons[n.neuron.ID]
     })
+
+    this.cachedHitsLeft = 0
   }
 
   ask (inputs) {
-    return this.net.activate(inputs)
+    if (this.cachedHitsLeft === 0) {
+      this.cachedValue = this.net.activate(inputs)
+      this.cachedHitsLeft = 3
+    } else {
+      this.cachedHitsLeft -= 1
+    }
+    return this.cachedValue
   }
 }
 

@@ -4,9 +4,10 @@ const Animal = require('./Animal')
 
 const MAP_SIZE = 60
 const TILE_SIZE = 30
+const FOOD_ABUNDANCE = 10
 
 global.game = new Phaser.Game(MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE,
-  Phaser.AUTO, 'game-container', {create, render, update})
+  Phaser.AUTO, 'game-container', {create, update})
 
 game.MAP_SIZE = MAP_SIZE
 game.TILE_SIZE = TILE_SIZE
@@ -60,11 +61,6 @@ function spawnAnimal () {
   animals.add(new Animal(x, y))
 }
 
-function render () {
-  tiles.forEach(row => row.forEach(tile => tile.render()))
-  animals.forEach(animal => animal.render())
-}
-
 // Call `game.updateLogic` manually when SPEED_MULTIPLIER > 1.
 let manualUpdate = false
 
@@ -83,7 +79,15 @@ function update () {
   let maxAgeAlive = 0
   let maxGenerationAlive = 0
 
-  tiles.forEach(row => row.forEach(tile => tile.tick()))
+  for (let i = 0; i < FOOD_ABUNDANCE; i++) {
+    const x = game.math.between(0, game.MAP_SIZE - 1)
+    const y = game.math.between(0, game.MAP_SIZE - 1)
+    const tile = tileAt({x, y})
+    tile.food += 20
+    if (tile.food > 255) tile.food = 255
+    tile.updateColor()
+  }
+
   animals.forEach(animal => {
     animal.tick(tileAt(animal.getPosition()))
     if (maxScoreAlive < animal.score) maxScoreAlive = animal.score
