@@ -24,6 +24,8 @@ function create () {
   game.scale.setUserScale(0.5, 0.5, 0, 0)
   game.stage.backgroundColor = '#555'
 
+  game.yearsRunning = 0
+
   generateTextures(TILE_SIZE)
 
   game.tiles = tiles
@@ -84,6 +86,8 @@ function update () {
     manualUpdate = false
   }
 
+  game.yearsRunning += 0.01
+
   maxScoreAlive = 0
   maxAgeAlive = 0
   maxGenerationAlive = 0
@@ -118,6 +122,7 @@ function update () {
 function render () {
   animals.forEach(a => a.updateColor())
 
+  window['years-running'].innerText = Math.floor(game.yearsRunning)
   window['game-speed'].innerText = game.SPEED_MULTIPLIER
   window['population-now'].innerText = animals.size
   window['population-max'].innerText = maxPopulation
