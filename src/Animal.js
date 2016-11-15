@@ -21,7 +21,7 @@ class Animal {
     this.sprite.angle = game.math.between(-180, 180)
     game.physics.arcade.velocityFromAngle(this.sprite.angle, game.math.between(10, 200), this.sprite.body.velocity)
 
-    this.brain = parent ? new Brain(parent.brain) : new Brain(6, 10, 10, 3)
+    this.brain = parent ? new Brain(parent.brain) : new Brain(7, 10, 10, 3)
   }
 
   tick (tile) {
@@ -46,6 +46,7 @@ class Animal {
 
     const [speed, turn, wantToBreed] = this.brain.ask([
       tile.food,
+      this.age,
       this.health,
       this.getFoodAhead(-30, 1),
       this.getFoodAhead(0, 2),
