@@ -24,6 +24,9 @@ function create () {
   game.scale.setUserScale(0.5, 0.5, 0, 0)
   game.stage.backgroundColor = '#555'
 
+  // Disable pause on blur.
+  game.stage.disableVisibilityChange = true
+
   game.yearsRunning = 0
 
   generateTextures(TILE_SIZE)
