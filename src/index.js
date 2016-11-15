@@ -20,6 +20,7 @@ const animals = new Set()
 function create () {
   game.physics.startSystem(Phaser.Physics.ARCADE)
   game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE
+  game.scale.setUserScale(0.3, 0.3, 0, 0)
   game.stage.backgroundColor = '#555'
 
   game.tiles = tiles
