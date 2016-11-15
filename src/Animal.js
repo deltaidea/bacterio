@@ -35,6 +35,7 @@ class Animal {
       this.health += amountEating
       this.score += amountEating
       tile.food -= amountEating
+      tile.updateColor()
     }
 
     if (this.health < 0) this.health = 0
