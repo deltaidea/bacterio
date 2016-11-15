@@ -3,9 +3,9 @@ const Tile = require('./Tile')
 const Animal = require('./Animal')
 const generateTextures = require('./generateTextures')
 
-const MAP_SIZE = 60
+const MAP_SIZE = 50
 const TILE_SIZE = 30
-const FOOD_ABUNDANCE = 10
+const FOOD_ABUNDANCE = 5
 
 global.game = new Phaser.Game(MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE,
   Phaser.AUTO, 'game-container', {create, update, render})
@@ -21,7 +21,7 @@ const animals = new Set()
 function create () {
   game.physics.startSystem(Phaser.Physics.ARCADE)
   game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE
-  game.scale.setUserScale(0.3, 0.3, 0, 0)
+  game.scale.setUserScale(0.5, 0.5, 0, 0)
   game.stage.backgroundColor = '#555'
 
   generateTextures(TILE_SIZE)
