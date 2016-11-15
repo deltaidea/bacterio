@@ -25,7 +25,7 @@ class Animal {
   }
 
   tick (tile) {
-    this.health -= 2 + Math.sqrt(this.age * 0.01)
+    this.health -= 1 + Math.sqrt(this.age * 0.01)
     this.age += 0.01
 
     let amountEating = 0
@@ -55,13 +55,13 @@ class Animal {
     ])
 
     if (this.health > 250 && wantToBreed > 0.5) {
-      this.health -= 70
+      this.health -= 30
       const {x, y} = this.getPosition()
       game.animals.add(new Animal(x, y, this))
     }
 
     this.sprite.angle += (turn - 0.5) * 100
-    game.physics.arcade.velocityFromAngle(this.sprite.angle, speed * 200, this.sprite.body.velocity)
+    game.physics.arcade.velocityFromAngle(this.sprite.angle, speed * 500, this.sprite.body.velocity)
   }
 
   updateColor () {
