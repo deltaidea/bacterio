@@ -11,14 +11,14 @@ html, body {
 
 #game-container {
   box-shadow: 0px 0px 5vmin black;
-  max-width: 70vw;
 }
 
 #dashboard {
-  margin: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
   padding: 10px;
-  min-width: 20vw;
-  background-color: #444444;
+  background-color: rgba(34, 34, 34, 0.8);
   color: #f5f5f5;
   font-size: 2vmin;
 }
