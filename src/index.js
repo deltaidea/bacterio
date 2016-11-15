@@ -6,9 +6,15 @@ const generateTextures = require('./generateTextures')
 const MAP_SIZE = 50
 const TILE_SIZE = 30
 const FOOD_ABUNDANCE = 5
+const DEFAULT_ZOOM = 0.5
 
-global.game = new Phaser.Game(MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE,
-  Phaser.AUTO, 'game-container', {create, update, render})
+global.game = new Phaser.Game({
+  state: {create, update, render},
+  container: 'game-container',
+  renderer: Phaser.AUTO,
+  width: MAP_SIZE * TILE_SIZE,
+  height: MAP_SIZE * TILE_SIZE
+})
 
 game.MAP_SIZE = MAP_SIZE
 game.TILE_SIZE = TILE_SIZE
@@ -21,7 +27,7 @@ const animals = new Set()
 function create () {
   game.physics.startSystem(Phaser.Physics.ARCADE)
   game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE
-  game.scale.setUserScale(0.5, 0.5, 0, 0)
+  game.scale.setUserScale(DEFAULT_ZOOM, DEFAULT_ZOOM, 0, 0)
   game.stage.backgroundColor = '#555'
 
   // Disable pause on blur.
@@ -105,6 +111,9 @@ function update () {
     if (tile.food > 255) tile.food = 255
     tile.updateColor()
   }
+
+  let animalGroup = Array.from(animals).map(a => a.sprite)
+  game.physics.arcade.collide(animalGroup, animalGroup)
 
   animals.forEach(animal => {
     animal.tick(tileAt(animal.getPosition()))
