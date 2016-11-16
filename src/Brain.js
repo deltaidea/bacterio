@@ -3,7 +3,7 @@ const synaptic = require('synaptic')
 class Brain {
   constructor (...layers) {
     if (layers[0] instanceof Brain) this.net = mutate(layers[0].net, 0.1)
-    else this.net = mutate(new synaptic.Architect.Perceptron(...layers), 0.8)
+    else this.net = mutate(new synaptic.Architect.Perceptron(...layers), 0.3)
     this.net.setOptimize(false)
     // Workaround for a memory leak.
     // https://github.com/cazala/synaptic/issues/164
