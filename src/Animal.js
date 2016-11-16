@@ -3,7 +3,7 @@ const Brain = require('./Brain')
 
 class Animal {
   constructor (x, y, parent) {
-    this.health = game.math.between(100, 150)
+    this.health = game.math.between(50, 100)
     this.age = 0
     this.score = 0
     this.generation = parent ? parent.generation + 1 : 1
@@ -25,22 +25,14 @@ class Animal {
   }
 
   tick (tile) {
-    this.health -= 1 + Math.sqrt(this.age * 0.01)
+    this.health -= 0.3 + Math.sqrt(this.age * 0.001)
     this.age += 0.01
 
-    let amountEating = 0
+    let amountEating = Math.min(Math.min(tile.food, 0.6), 255 - this.health)
 
-    if (tile.food >= 5) amountEating = 4
-    else amountEating = tile.food
-
-    if ((255 - this.health) < amountEating) amountEating = 255 - this.health
-
-    if (amountEating) {
-      this.health += amountEating
-      this.score += amountEating
-      tile.food -= amountEating
-      tile.updateColor()
-    }
+    tile.food -= amountEating
+    this.health += amountEating
+    this.score += amountEating
 
     if (this.health < 0) this.health = 0
 
@@ -48,14 +40,14 @@ class Animal {
       tile.food,
       this.age,
       this.health,
-      this.getFoodAhead(-30, 1),
-      this.getFoodAhead(0, 2),
-      this.getFoodAhead(30, 1),
+      this.getFoodAhead(-30, 3),
+      this.getFoodAhead(0, 1),
+      this.getFoodAhead(30, 3),
       this.overlapWithAnother
     ])
 
-    if (this.health > 250 && wantToBreed > 0.5) {
-      this.health -= 30
+    if (this.health > 230 && wantToBreed > 0.5) {
+      this.health -= 150
       const {x, y} = this.getPosition()
       game.animals.add(new Animal(x, y, this))
     }

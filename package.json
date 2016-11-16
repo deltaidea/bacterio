@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/deltaidea/bacterio#readme",
   "dependencies": {
+    "noisejs": "^2.1.0",
     "phaser": "^2.6.2",
     "synaptic": "^1.0.8"
   },
