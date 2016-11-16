@@ -13,7 +13,6 @@ class Animal {
     this.sprite.body.setCircle(game.TILE_SIZE / 2)
     this.sprite.body.collideWorldBounds = true
     this.sprite.anchor.setTo(0.5, 0.5)
-    this.updateColor()
 
     // Back-reference for collision handling based on sprites.
     this.sprite.animal = this

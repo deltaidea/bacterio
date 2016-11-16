@@ -133,6 +133,7 @@ function update () {
 
 function render () {
   animals.forEach(a => a.updateColor())
+  tiles.forEach(row => row.forEach(tile => tile.updateColor()))
 
   window['years-running'].innerText = Math.floor(game.yearsRunning)
   window['game-speed'].innerText = game.SPEED_MULTIPLIER

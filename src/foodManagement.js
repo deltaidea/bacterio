@@ -8,7 +8,6 @@ module.exports = {
         let tile = game.tiles[x][y]
         let tileYield = noise.perlin3(x / 10, y / 10, game.yearsRunning) * 0.5
         tile.food = game.math.clamp(tile.food + tileYield, 0, 255)
-        tile.updateColor()
       }
     }
   }
