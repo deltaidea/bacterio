@@ -10,7 +10,7 @@ html, body {
 }
 
 #game-container {
-  box-shadow: 0px 0px 5vmin black;
+  box-shadow: 0px 0px 50px black;
 }
 
 #dashboard {

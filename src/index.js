@@ -10,7 +10,7 @@ const DEFAULT_ZOOM = 0.5
 
 global.game = new Phaser.Game({
   state: {create, update, render},
-  container: 'game-container',
+  parent: 'game-container',
   renderer: Phaser.AUTO,
   width: MAP_SIZE * TILE_SIZE,
   height: MAP_SIZE * TILE_SIZE
