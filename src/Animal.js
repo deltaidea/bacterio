@@ -10,7 +10,7 @@ class Animal {
 
     this.sprite = game.add.sprite(game.TILE_SIZE * (x + 0.5), game.TILE_SIZE * (y + 0.5), game.cache.getBitmapData('animal' + this.health))
     game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
-    this.sprite.body.setCircle(game.TILE_SIZE / 2)
+    this.sprite.body.setCircle(game.TILE_SIZE / 4, game.TILE_SIZE / 4, game.TILE_SIZE / 4)
     this.sprite.body.collideWorldBounds = true
     this.sprite.anchor.setTo(0.5, 0.5)
 
@@ -52,7 +52,7 @@ class Animal {
     }
 
     this.sprite.angle += (turn - 0.5) * 100
-    game.physics.arcade.velocityFromAngle(this.sprite.angle, speed * 500, this.sprite.body.velocity)
+    game.physics.arcade.velocityFromAngle(this.sprite.angle, speed * 100, this.sprite.body.velocity)
   }
 
   updateColor () {
